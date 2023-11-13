@@ -4,7 +4,17 @@
     {
         public static long Day_01(string input)
         {
-            throw new NotImplementedException();
+            long result = 0;
+
+            foreach (var item in input)
+            {
+                if (item == '(')
+                    result++;
+                else if (item == ')')
+                    result--;
+            }
+
+            return result;
         }
     }
 }

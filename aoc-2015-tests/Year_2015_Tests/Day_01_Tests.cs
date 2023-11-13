@@ -1,4 +1,4 @@
-using AdventOfCode.Years;
+using AdventOfCode.Year_2015;
 
 namespace UnitTests.Year_2015_Tests
 {
@@ -14,18 +14,18 @@ namespace UnitTests.Year_2015_Tests
         [InlineData("))(", -1)]
         [InlineData(")))", -3)]
         [InlineData(")())())", -3)]
-        public void A_Given_ValidInput_Returns_ExpectedResult(string input, long expected)
+        public void PuzzleA_Given_ValidInput_Returns_ExpectedResult(string input, long expected)
         {
-            var actual = Year_2015.Day_01_A(input);
+            var actual = Day_01.PuzzleA(input);
             Assert.Equal(expected, actual);
 		}
 
 		[Theory]
 		[InlineData(")", 1)]
 		[InlineData("()())", 5)]
-		public void B_Given_ValidInput_Returns_ExpectedResult(string input, long expected)
+		public void PuzzleB_Given_ValidInput_Returns_ExpectedResult(string input, long expected)
 		{
-			var actual = Year_2015.Day_01_B(input);
+			var actual = Day_01.PuzzleB(input);
 			Assert.Equal(expected, actual);
 		}
 	}

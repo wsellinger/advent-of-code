@@ -12,5 +12,14 @@ namespace UnitTests.Year_2015_Tests
 			var actual = Day_02.PuzzleA(input);
 			Assert.Equal(expected, actual);
 		}
+
+		[Theory]
+		[InlineData("2x3x4", 34)]
+		[InlineData("1x1x10", 14)]
+		public void PuzzleB_Given_ValidInput_Returns_ExpectedResult(string input, long expected)
+		{
+			var actual = Day_02.PuzzleB(input);
+			Assert.Equal(expected, actual);
+		}
 	}
 }

@@ -2,12 +2,11 @@
 {
     public static class StringUtils
     {
-        public static IEnumerable<string> SplitInputOnNewLine(this string str)
-        {
-            var split = str.SplitOnNewline();
-            return split.Length > 0 && split[^1].IsEmpty() ? split.SkipLast(1) : split;
-        }
-        public static string[] SplitOnNewline(this string str) => str.Split("\r\n");
+        public static IEnumerable<string> SplitOnNewline(this string str) => 
+            str.EndsWith(Environment.NewLine) ? 
+            str.Split(Environment.NewLine).SkipLast(1) : 
+            str.Split(Environment.NewLine);
+
         public static bool IsEmpty(this string str) => str == string.Empty;
         public static int ToInt(this string str) => int.Parse(str);
 

@@ -12,4 +12,5 @@ using Input = AdventOfCode.Data.Input;
 
 //Year 2023
 //Day 01
-Console.WriteLine(Logic.Year2023.Day01.PartA(Input.Year2023.Day01));
+//Console.WriteLine(Logic.Year2023.Day01.PartA(Input.Year2023.Day01));
+Console.WriteLine(Logic.Year2023.Day01.PartB(Input.Year2023.Day01));

@@ -2,12 +2,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -46,34 +48,113 @@ namespace AdventOfCode.Logic.Year2023
     /// In this example, the calibration values of these four lines are 12, 38, 15, and 77. Adding these together produces 142.
     /// 
     /// Consider your entire calibration document.What is the sum of all of the calibration values?
-
+    /// 
+    /// --- Part Two ---
+    ///
+    ///     Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid "digits".
+    /// 
+    /// Equipped with this new information, you now need to find the real first and last digit on each line.For example:
+    /// 
+    /// two1nine
+    /// eightwothree
+    /// abcone2threexyz
+    /// xtwone3four
+    /// 4nineeightseven2
+    /// zoneight234
+    /// 7pqrstsixteen
+    /// 
+    /// In this example, the calibration values are 29, 83, 13, 24, 42, 14, and 76. Adding these together produces 281.
+    /// 
+    /// What is the sum of all of the calibration values?
+    /// 
     /// </summary>
     public class Day01
     {
         public static long PartA(string input)
         {
-            List<int> calibrationList = [];
-            IEnumerable<string> inputLines = input.SplitInputOnNewLine();
-            foreach (string line in inputLines)
-            {
-                var calibrationValue = GetCalibrationValue(line);
-                calibrationList.Add(calibrationValue);
-            }
+            return input.SplitOnNewline().
+                Select(x => GetCalibrationValue(x)).
+                Sum();
 
-            return calibrationList.Sum();
+            //Local Methods
 
             static int GetCalibrationValue(string input) 
             {
                 char firstDigit = input.First(x => char.IsDigit(x));
                 char lastDigit = input.Last(x => char.IsDigit(x));
 
-                return $"{firstDigit}{lastDigit}".ToInt();
+                return ConvertDigitsToInt(firstDigit, lastDigit);
             }
         }
 
         public static long PartB(string input)
         {
-            throw new NotImplementedException();
+            return input.SplitOnNewline().
+                Select(x => GetCalibrationValue(x)).
+                Sum();
+
+            //Local Methods
+
+            static int GetCalibrationValue(string input)
+            {
+                char firstDigit = GetFirstDigit(input);
+                char lastDigit = GetLastDigit(input);
+
+                return ConvertDigitsToInt(firstDigit, lastDigit);
+            }
+
+            static char GetFirstDigit(string input)
+            {
+                for (int i = 0; i < input.Length; i++)
+                    if (GetDigitAtIndex(input, i, out char digit))
+                        return digit;
+
+                throw new Exception("No Digit Found In Line");
+            }
+
+            static char GetLastDigit(string input)
+            {
+                for (int i = input.Length - 1; i >= 0; i--)
+                    if (GetDigitAtIndex(input, i, out char digit))
+                        return digit;
+
+                throw new Exception("No Digit Found In Line");
+            }
+
+            static bool GetDigitAtIndex(string input, int index, out char digit)
+            {
+                if (input[index].IsDigit())
+                {
+                    digit = input[index];
+                    return true;
+                }
+                else
+                {
+                    for (int i = 0; i < DigitWords.Length; i++)
+                    {
+                        string word = DigitWords[i];
+                        int iWordEnd = index + word.Length;
+                        if (iWordEnd <= input.Length)
+                        {
+                            if (word == input[index..iWordEnd])
+                            {
+                                digit = (char)(i + 1 + '0');
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                digit = '\0';
+                return false;
+            }
+
         }
+
+        private static int ConvertDigitsToInt(char firstDigit, char lastDigit) => 
+            $"{firstDigit}{lastDigit}".ToInt();
+
+        private static ImmutableArray<string> DigitWords => 
+            ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
     }
 }

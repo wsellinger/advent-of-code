@@ -50,7 +50,7 @@ namespace AdventOfCode.Logic.Year2015
 
         private static Box[] GetBoxArray(string input)
         {
-            return input.SplitInputOnNewLine().
+            return input.SplitOnNewline().
                 Where(x => !x.IsEmpty()).
                 Select(x => new Box(x)).
                 ToArray();

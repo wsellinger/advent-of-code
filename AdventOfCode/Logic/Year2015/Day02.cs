@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Logic.Utils;
+﻿using AdventOfCode.Logic.Tools;
+using AdventOfCode.Logic.Utils;
 
 namespace AdventOfCode.Logic.Year2015
 {
@@ -40,20 +41,28 @@ namespace AdventOfCode.Logic.Year2015
     /// </summary>
     public class Day02
     {
-        public static long PartA(string input) =>
-            GetBoxArray(input).
-            Sum(x => x.SurfaceArea + x.SmallestSideArea);
-
-        public static long PartB(string input) =>
-            GetBoxArray(input).
-            Sum(x => x.ShortestPerimeter + x.Volume);
-
-        private static Box[] GetBoxArray(string input)
+        public static async Task<long> PartA(IStreamReader input)
         {
-            return input.SplitOnNewline().
-                Where(x => !x.IsEmpty()).
-                Select(x => new Box(x)).
-                ToArray();
+            Box[] boxArray = await GetBoxArray(input);
+            return boxArray.Sum(x => x.SurfaceArea + x.SmallestSideArea);
+        }
+
+        public static async Task<long> PartB(IStreamReader input)
+        {
+            Box[] boxArray = await GetBoxArray(input);
+            return boxArray.Sum(x => x.ShortestPerimeter + x.Volume);
+        }
+
+        private static async Task<Box[]> GetBoxArray(IStreamReader input)
+        {
+            string? line;
+            List<Box> boxList = [];
+            while ((line = await input.ReadLineAsync()) is not null)
+            {
+                boxList.Add(new(line));
+            }
+
+            return [.. boxList];
         }
 
         private record Box(long Length, long Width, long Height)

@@ -1,3 +1,4 @@
+using AdventOfCode.Logic.Tools;
 using AdventOfCode.Logic.Year2023;
 
 namespace Year_2023
@@ -14,7 +15,8 @@ namespace Year_2023
         [InlineData("1abc2\r\npqr3stu8vwx\r\na1b2c3d4e5f\r\ntreb7uchet", 142)]
         public void PartA(string input, long expected)
         {
-            var actual = Day01.PartA(input);
+            var stream = new StringStreamReader(input);
+            var actual = Day01.PartA(stream).Result;
             Assert.Equal(expected, actual);
         }
 
@@ -30,7 +32,8 @@ namespace Year_2023
         [InlineData("two1nine\r\neightwothree\r\nabcone2threexyz\r\nxtwone3four\r\n4nineeightseven2\r\nzoneight234\r\n7pqrstsixteen", 281)]
         public void PartB(string input, long expected)
         {
-            var actual = Day01.PartB(input);
+            var stream = new StringStreamReader(input);
+            var actual = Day01.PartB(stream).Result;
             Assert.Equal(expected, actual);
         }
     }

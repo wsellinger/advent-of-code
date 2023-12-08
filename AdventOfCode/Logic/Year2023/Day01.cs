@@ -1,4 +1,5 @@
-﻿using AdventOfCode.Logic.Utils;
+﻿using AdventOfCode.Logic.Tools;
+using AdventOfCode.Logic.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,11 +71,16 @@ namespace AdventOfCode.Logic.Year2023
     /// </summary>
     public class Day01
     {
-        public static long PartA(string input)
+        public static async Task<long> PartA(IStreamReader input)
         {
-            return input.SplitOnNewline().
-                Select(x => GetCalibrationValue(x)).
-                Sum();
+            List<int> calibrationList = [];
+            string? line;
+            while ((line = await input.ReadLineAsync()) is not null)
+            {
+                int value = GetCalibrationValue(line);
+                calibrationList.Add(value);
+            }
+            return calibrationList.Sum();
 
             //Local Methods
 
@@ -87,11 +93,17 @@ namespace AdventOfCode.Logic.Year2023
             }
         }
 
-        public static long PartB(string input)
+        public static async Task<long> PartB(IStreamReader input)
         {
-            return input.SplitOnNewline().
-                Select(x => GetCalibrationValue(x)).
-                Sum();
+            string? line;
+            List<int> calibrationList = [];
+            while ((line = await input.ReadLineAsync()) is not null)
+            {
+                int value = GetCalibrationValue(line);
+                calibrationList.Add(value);
+            }
+
+            return calibrationList.Sum();
 
             //Local Methods
 

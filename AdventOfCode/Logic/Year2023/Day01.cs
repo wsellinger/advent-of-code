@@ -1,18 +1,6 @@
 ﻿using AdventOfCode.Logic.Tools;
 using AdventOfCode.Logic.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdventOfCode.Logic.Year2023
 {
@@ -74,10 +62,9 @@ namespace AdventOfCode.Logic.Year2023
         public static async Task<long> PartA(IStreamReader input)
         {
             List<int> calibrationList = [];
-            string? line;
-            while ((line = await input.ReadLineAsync()) is not null)
+            while (await input.ReadLineAsync())
             {
-                int value = GetCalibrationValue(line);
+                int value = GetCalibrationValue(input.Line);
                 calibrationList.Add(value);
             }
             return calibrationList.Sum();
@@ -95,11 +82,10 @@ namespace AdventOfCode.Logic.Year2023
 
         public static async Task<long> PartB(IStreamReader input)
         {
-            string? line;
             List<int> calibrationList = [];
-            while ((line = await input.ReadLineAsync()) is not null)
+            while (await input.ReadLineAsync())
             {
-                int value = GetCalibrationValue(line);
+                int value = GetCalibrationValue(input.Line);
                 calibrationList.Add(value);
             }
 

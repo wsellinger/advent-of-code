@@ -1,5 +1,4 @@
 ﻿using AdventOfCode.Logic.Tools;
-using AdventOfCode.Logic.Utils;
 
 namespace AdventOfCode.Logic.Year2015
 {
@@ -55,11 +54,10 @@ namespace AdventOfCode.Logic.Year2015
 
         private static async Task<Box[]> GetBoxArray(IStreamReader input)
         {
-            string? line;
             List<Box> boxList = [];
-            while ((line = await input.ReadLineAsync()) is not null)
+            while (await input.ReadLineAsync())
             {
-                boxList.Add(new(line));
+                boxList.Add(new(input.Line));
             }
 
             return [.. boxList];

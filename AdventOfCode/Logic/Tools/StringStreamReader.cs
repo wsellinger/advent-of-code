@@ -2,26 +2,32 @@
 {
     public class StringStreamReader(string value) : IStreamReader
     {
+        public string Line { get; private set; } = string.Empty;
+
         private string Value { get; init; } = value;
         private int StartIndex { get; set; } = 0;
 
-        public async Task<string?> ReadLineAsync()
+        public async Task<bool> ReadLineAsync()
         {
-            string? result = null;
+            bool result = false;
 
             if (StartIndex != Value.Length)
             {
                 int endIndex = Value.IndexOf(Environment.NewLine, StartIndex);
-                if (endIndex != -1)
+                bool isFinal = endIndex == -1;
+
+                if (isFinal)
                 {
-                    result = Value[StartIndex..endIndex];
-                    StartIndex = endIndex + Environment.NewLine.Length;
+                    Line = Value[StartIndex..];
+                    StartIndex = Value.Length;
                 }
                 else
                 {
-                    result = Value[StartIndex..];
-                    StartIndex = Value.Length;
+                    Line = Value[StartIndex..endIndex];
+                    StartIndex = endIndex + Environment.NewLine.Length;
                 }
+
+                result = true;
             }
 
             return await Task.FromResult(result);

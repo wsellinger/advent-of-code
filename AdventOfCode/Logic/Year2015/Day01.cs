@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Drawing;
-
-namespace AdventOfCode.Logic.Year2015
+﻿namespace AdventOfCode.Logic.Year2015
 {
 
     /// <summary>

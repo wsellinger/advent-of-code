@@ -60,6 +60,22 @@ namespace AdventOfCode
                     Console.WriteLine(result);
                 }
             }
+            static class Day02
+            {
+                public static async Task PartA()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
+                    long result = await Logic.Year2023.Day02.PartA(input);
+                    Console.WriteLine(result);
+                }
+
+                public static async Task PartB()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
+                    long result = await Logic.Year2023.Day02.PartB(input);
+                    Console.WriteLine(result);
+                }
+            }
         }
     }
 }

@@ -1,21 +1,7 @@
-﻿using AdventOfCode.Logic.Utils;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using AdventOfCode.Logic.Tools;
+using AdventOfCode.Logic.Utils;
 using System.Collections.Immutable;
 using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdventOfCode.Logic.Year2023
 {
@@ -61,17 +47,100 @@ namespace AdventOfCode.Logic.Year2023
     /// Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue 
     /// cubes. What is the sum of the IDs of those games?
     /// 
+    /// --- Part Two ---
+    /// 
+    /// The Elf says they've stopped producing snow because they aren't getting any water! He isn't sure why the water stopped; however, 
+    /// he can show you how to get to the water source to check it out for yourself. It's just up ahead!
+    /// 
+    /// As you continue your walk, the Elf poses a second question: in each game you played, what is the fewest number of cubes of each 
+    /// color that could have been in the bag to make the game possible?
+    /// 
+    /// Again consider the example games from earlier:
+    /// 
+    /// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+    /// Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+    /// Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+    /// Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+    /// Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+    /// 
+    ///     In game 1, the game could have been played with as few as 4 red, 2 green, and 6 blue cubes. If any color had even one fewer 
+    ///         cube, the game would have been impossible.
+    ///     Game 2 could have been played with a minimum of 1 red, 3 green, and 4 blue cubes.
+    ///     Game 3 must have been played with at least 20 red, 13 green, and 6 blue cubes.
+    ///     Game 4 required at least 14 red, 3 green, and 15 blue cubes.
+    ///     Game 5 needed no fewer than 6 red, 3 green, and 2 blue cubes in the bag.
+    /// 
+    /// The power of a set of cubes is equal to the numbers of red, green, and blue cubes multiplied together. The power of the minimum 
+    /// set of cubes in game 1 is 48. In games 2-5 it was 12, 1560, 630, and 36, respectively. Adding up these five powers produces the 
+    /// sum 2286.
+    /// 
+    /// For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?
+    /// 
     /// </summary>
     public class Day02
     {
-        public static long PartA(string input)
+        public static async Task<long> PartA(IStreamReader input)
         {
+            Dictionary<CubeColor, int> MaxCubes = new()
+            {
+                { CubeColor.Red, 12 },
+                { CubeColor.Green, 13 },
+                { CubeColor.Blue, 14 }
+            };
+
+            GameRecord[] gameRecords = await GetGameRecords(input);
+            
+            return gameRecords.
+                Where(gameRecord => gameRecord.ResultRecords.
+                    All(resultRecord => resultRecord.
+                        All(x => x.Amount <= MaxCubes[x.Color]))).
+                Select(x => x.Id).
+                Sum();
+
+            //Local Methods
+
+            async Task<GameRecord[]> GetGameRecords(IStreamReader input)
+            {
+                List<GameRecord> gameRecords = [];
+                while (await input.ReadLineAsync())
+                {
+                    gameRecords.Add(new(input.Line));
+                }
+
+                return [.. gameRecords];
+            }
+        }
+
+        public static async Task<long> PartB(IStreamReader input)
+        {
+            await Task.CompletedTask;
             throw new NotImplementedException();
         }
 
-        public static long PartB(string input)
+        private record GameRecord(int Id, CubeResult[][] ResultRecords)
         {
-            throw new NotImplementedException();
+            public GameRecord(string input) : this(0, [])
+            {
+                string[] IdAndSets = input.Split(':');
+                Id = IdAndSets[0].Split(" ")[1].ToInt();
+                ResultRecords = IdAndSets[1].Split(";").
+                    Select(resultList => resultList.Split(',').
+                        Select(result => new CubeResult(result)).
+                        ToArray()).
+                    ToArray();
+            }
         }
+
+        private record CubeResult(CubeColor Color, int Amount)
+        {
+            public CubeResult(string input) : this(0, 0)
+            {
+                string[] values = input.Trim().Split(' ');
+                Color = (CubeColor)Enum.Parse(typeof(CubeColor), values[1], true);
+                Amount = values[0].ToInt();
+            }
+        }
+
+        private enum CubeColor { Red, Green, Blue }
     }
 }

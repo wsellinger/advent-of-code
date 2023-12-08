@@ -2,6 +2,7 @@
 {
     public interface IStreamReader : IDisposable
     {
-        public Task<string?> ReadLineAsync();
+        public Task<bool> ReadLineAsync();
+        public string Line {  get; }
     }
 }

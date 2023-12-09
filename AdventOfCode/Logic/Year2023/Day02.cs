@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.Logic.Tools;
 using AdventOfCode.Logic.Utils;
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 
 namespace AdventOfCode.Logic.Year2023
@@ -79,6 +80,7 @@ namespace AdventOfCode.Logic.Year2023
     /// </summary>
     public class Day02
     {
+
         public static async Task<long> PartA(IStreamReader input)
         {
             Dictionary<CubeColor, int> MaxCubes = new()
@@ -88,33 +90,49 @@ namespace AdventOfCode.Logic.Year2023
                 { CubeColor.Blue, 14 }
             };
 
-            GameRecord[] gameRecords = await GetGameRecords(input);
-            
-            return gameRecords.
+            return (await GetGameRecords(input)).
                 Where(gameRecord => gameRecord.ResultRecords.
                     All(resultRecord => resultRecord.
                         All(x => x.Amount <= MaxCubes[x.Color]))).
                 Select(x => x.Id).
                 Sum();
-
-            //Local Methods
-
-            async Task<GameRecord[]> GetGameRecords(IStreamReader input)
-            {
-                List<GameRecord> gameRecords = [];
-                while (await input.ReadLineAsync())
-                {
-                    gameRecords.Add(new(input.Line));
-                }
-
-                return [.. gameRecords];
-            }
         }
 
         public static async Task<long> PartB(IStreamReader input)
         {
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            return (await GetGameRecords(input)).
+                Sum(x => GetSetPower(x));
+
+            //Local Methods
+
+            static int GetSetPower(GameRecord gameRecord)
+            {
+                Dictionary<CubeColor, int> maxCubes = [];
+                foreach (CubeResult[] resultRecord in gameRecord.ResultRecords)
+                {
+                    foreach (var cubeResult in resultRecord)
+                    {
+                        var maxAmount = maxCubes.GetValueOrDefault(cubeResult.Color);
+                        if (cubeResult.Amount > maxAmount)
+                            maxCubes[cubeResult.Color] = cubeResult.Amount;
+                    }
+                }
+
+                return maxCubes.Select(x => x.Value).Aggregate((p, x) => p * x);
+            }
+        }
+
+        //Private
+
+        private static async Task<GameRecord[]> GetGameRecords(IStreamReader input)
+        {
+            List<GameRecord> gameRecords = [];
+            while (await input.ReadLineAsync())
+            {
+                gameRecords.Add(new(input.Line));
+            }
+
+            return [.. gameRecords];
         }
 
         private record GameRecord(int Id, CubeResult[][] ResultRecords)

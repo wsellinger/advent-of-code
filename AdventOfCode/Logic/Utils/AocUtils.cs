@@ -18,6 +18,9 @@ namespace AdventOfCode.Logic.Utils
             return new FileStreamReader(name);
         }
 
+        public static void LogResult(int year, int day, char part, long result) =>
+             Console.WriteLine($"Year {year} Day {day:D2} Part {part} Result: {result}");
+
         private static string GetFileName(int year, int day) =>
             $"Input/Year_{year}__Day_{day:D2}.txt";
     }

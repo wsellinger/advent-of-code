@@ -62,7 +62,7 @@ namespace AdventOfCode.Logic.Year2023
         public static async Task<long> PartA(IStreamReader input)
         {
             List<int> calibrationList = [];
-            while (await input.ReadLineAsync())
+            while (await input.TryReadLineAsync())
             {
                 int value = GetCalibrationValue(input.Line);
                 calibrationList.Add(value);
@@ -83,7 +83,7 @@ namespace AdventOfCode.Logic.Year2023
         public static async Task<long> PartB(IStreamReader input)
         {
             List<int> calibrationList = [];
-            while (await input.ReadLineAsync())
+            while (await input.TryReadLineAsync())
             {
                 int value = GetCalibrationValue(input.Line);
                 calibrationList.Add(value);

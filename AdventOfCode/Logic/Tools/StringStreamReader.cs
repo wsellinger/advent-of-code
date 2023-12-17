@@ -7,7 +7,7 @@
         private string Value { get; init; } = value;
         private int StartIndex { get; set; } = 0;
 
-        public async Task<bool> ReadLineAsync()
+        public async Task<bool> TryReadLineAsync()
         {
             bool result = false;
 
@@ -33,6 +33,12 @@
             return await Task.FromResult(result);
         }
 
-        public void Dispose() { }
+        public async Task<string?> ReadLineAsync()
+        {
+            bool isReturned = await TryReadLineAsync();
+            return isReturned ? Line : null;
+        }
+
+        public void Dispose() => GC.SuppressFinalize(this);
     }
 }

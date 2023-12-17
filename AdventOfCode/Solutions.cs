@@ -7,73 +7,109 @@ namespace AdventOfCode
     {
         namespace Year2015
         {
+            using static AdventOfCode.Solutions.Year2015.Shared;
+
+            internal struct Shared { public static int Year => 2015; }
+
             static class Day01
             {
+                public static int Day => 1;
+
                 public static void PartA()
                 {
                     string input = AocUtils.GetSingleLineInput(2015, 1);
                     long result = Logic.Year2015.Day01.PartA(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static void PartB()
                 {
                     string input = AocUtils.GetSingleLineInput(2015, 1);
                     long result = Logic.Year2015.Day01.PartB(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'B', result);
                 }
             }
 
-            static class Day02 
-            { 
+            static class Day02
+            {
+                public static int Day => 2;
+
                 public static async Task PartA() 
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2015, 2);
                     long result = await Logic.Year2015.Day02.PartA(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2015, 2);
                     long result = await Logic.Year2015.Day02.PartB(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'B', result);
                 }
             }
         }
 
         namespace Year2023
         {
+            using static AdventOfCode.Solutions.Year2023.Shared;
+
+            internal struct Shared { public static int Year => 2023; }
+
             static class Day01
             {
+                public static int Day => 1;
+
                 public static async Task PartA()
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2023, 1);
                     long result = await Logic.Year2023.Day01.PartA(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2023, 1);
                     long result = await Logic.Year2023.Day01.PartB(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'B', result);
                 }
             }
+
             static class Day02
             {
+                public static int Day => 2;
+
                 public static async Task PartA()
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
                     long result = await Logic.Year2023.Day02.PartA(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
                     using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
                     long result = await Logic.Year2023.Day02.PartB(input);
-                    Console.WriteLine(result);
+                    AocUtils.LogResult(Year, Day, 'B', result);
+                }
+            }
+
+            static class Day03
+            {
+                public static int Day => 3;
+
+                public static async Task PartA()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 3);
+                    long result = await Logic.Year2023.Day03.PartA(input);
+                    AocUtils.LogResult(Year, Day, 'A', result);
+                }
+
+                public static async Task PartB()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 3);
+                    long result = await Logic.Year2023.Day03.PartB(input);
+                    AocUtils.LogResult(Year, Day, 'B', result);
                 }
             }
         }

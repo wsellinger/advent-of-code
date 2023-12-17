@@ -55,7 +55,7 @@ namespace AdventOfCode.Logic.Year2015
         private static async Task<Box[]> GetBoxArray(IStreamReader input)
         {
             List<Box> boxList = [];
-            while (await input.ReadLineAsync())
+            while (await input.TryReadLineAsync())
             {
                 boxList.Add(new(input.Line));
             }

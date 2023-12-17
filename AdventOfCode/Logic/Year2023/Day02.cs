@@ -1,8 +1,6 @@
 ﻿using AdventOfCode.Logic.Tools;
 using AdventOfCode.Logic.Utils;
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 
 namespace AdventOfCode.Logic.Year2023
 {
@@ -110,7 +108,7 @@ namespace AdventOfCode.Logic.Year2023
                 Dictionary<CubeColor, int> maxCubes = [];
                 foreach (CubeResult[] resultRecord in gameRecord.ResultRecords)
                 {
-                    foreach (var cubeResult in resultRecord)
+                    foreach (CubeResult cubeResult in resultRecord)
                     {
                         var maxAmount = maxCubes.GetValueOrDefault(cubeResult.Color);
                         if (cubeResult.Amount > maxAmount)
@@ -127,7 +125,7 @@ namespace AdventOfCode.Logic.Year2023
         private static async Task<GameRecord[]> GetGameRecords(IStreamReader input)
         {
             List<GameRecord> gameRecords = [];
-            while (await input.ReadLineAsync())
+            while (await input.TryReadLineAsync())
             {
                 gameRecords.Add(new(input.Line));
             }
@@ -140,8 +138,8 @@ namespace AdventOfCode.Logic.Year2023
             public GameRecord(string input) : this(0, [])
             {
                 string[] IdAndSets = input.Split(':');
-                Id = IdAndSets[0].Split(" ")[1].ToInt();
-                ResultRecords = IdAndSets[1].Split(";").
+                Id = IdAndSets[0].Split(' ')[1].ToInt();
+                ResultRecords = IdAndSets[1].Split(';').
                     Select(resultList => resultList.Split(',').
                         Select(result => new CubeResult(result)).
                         ToArray()).

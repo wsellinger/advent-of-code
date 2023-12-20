@@ -110,8 +110,8 @@ namespace AdventOfCode.Logic.Year2023
         //Private
         private class SchematicParser(IStreamReader input) : LineSet(input)
         {
-            private const char empty = '.';
-            private const char gear = '*';
+            private const char EMPTY = '.';
+            private const char GEAR = '*';
 
             private int _index = 0;
 
@@ -166,25 +166,25 @@ namespace AdventOfCode.Logic.Year2023
                 bool ValidateNumberRange(Range range)
                 {
                     int iStart = range.Start.Value - 1;
-                    if (IsValid(Current, iStart))
+                    if (IsValid(iStart, Current))
                         return true;
 
                     int iEnd = range.End.Value;
-                    if (IsValid(Current, iEnd))
+                    if (IsValid(iEnd, Current))
                         return true;
 
                     for (int i = iStart; i <= iEnd; i++)
-                        if (IsValid(Previous, i) || IsValid(Next, i))
+                        if (IsValid(i, Previous) || IsValid(i, Next))
                             return true;
 
                     return false;
 
                     //Local
-                    bool IsValid(string? s, int i) =>
-                        IsInRange(s, i) && IsSymbol(s![i]);
+                    static bool IsValid(int i, string? s) =>
+                        IsInRange(i, s) && IsSymbol(s![i]);
 
                     static bool IsSymbol(char ch) =>
-                        ch != empty && !ch.IsDigit();
+                        ch != EMPTY && !ch.IsDigit();
                 }
             }
 
@@ -207,9 +207,9 @@ namespace AdventOfCode.Logic.Year2023
                 {
                     for (; _index < Current?.Length; _index++)
                     {
-                        if (Current[_index] == gear)
+                        if (Current[_index] == GEAR)
                         {
-                            iGear = _index++;
+                            iGear = _index++; //increment index post assignment to start after it next time
                             return true;
                         }
                     }
@@ -226,22 +226,22 @@ namespace AdventOfCode.Logic.Year2023
                     gearRatio = 0;
 
                     int iStart = iGear - 1;
-                    if (IsDigit(Current, iStart))
-                        partNumbers.Add(GetPartNumber(Current, iStart));
+                    if (IsDigit(iStart, Current))
+                        partNumbers.Add(GetPartNumber(iStart, Current));
 
                     int iEnd = iGear + 1;
-                    if (IsDigit(Current, iEnd))
-                        partNumbers.Add(GetPartNumber(Current, iEnd));
+                    if (IsDigit(iEnd, Current))
+                        partNumbers.Add(GetPartNumber(iEnd, Current));
 
                     for (int i = iStart; i <= iEnd && partNumbers.Count < 2; i++)
-                        if (IsDigit(Previous, i))
+                        if (IsDigit(i, Previous))
                             partNumbers.Add(
-                                GetPartNumberAndUpdateIndex(Previous, ref i));
+                                GetPartNumberAndUpdateIndex(ref i, Previous));
 
                     for (int i = iStart; i <= iEnd && partNumbers.Count < 2; i++)
-                        if (IsDigit(Next, i))
+                        if (IsDigit(i, Next))
                             partNumbers.Add(
-                                GetPartNumberAndUpdateIndex(Next, ref i));
+                                GetPartNumberAndUpdateIndex(ref i, Next));
 
                     if (partNumbers.Count < 2)
                         return false;
@@ -252,23 +252,23 @@ namespace AdventOfCode.Logic.Year2023
                     
                     //Local
 
-                    int GetPartNumber(string? s, int i) =>
-                        GetPartNumberAndUpdateIndex(s, ref i);
+                    static int GetPartNumber(int i, string? s) =>
+                        GetPartNumberAndUpdateIndex(ref i, s);
 
-                    int GetPartNumberAndUpdateIndex(string? s, ref int i)
+                    static int GetPartNumberAndUpdateIndex(ref int i, string? s)
                     {
                         if (s == null) 
                             return 0;
 
-                        int iLeft = GetLeft(s, i);
-                        int iRight = GetRight(s, i);
+                        int iLeft = GetLeft(i, s);
+                        int iRight = GetRight(i, s);
 
                         i = iRight; //update index to end of this number
                         return s[iLeft..iRight].ToInt();
 
                         //Local
 
-                        static int GetLeft(string s, int i)
+                        static int GetLeft(int i, string s)
                         {
                             for (--i; i >= 0; i--)
                                 if (!s[i].IsDigit())
@@ -277,7 +277,7 @@ namespace AdventOfCode.Logic.Year2023
                             return ++i; //Left Inclusive
                         }
 
-                        static int GetRight(string s, int i)
+                        static int GetRight(int i, string s)
                         {
                             for (++i; i < s.Length; i++)
                                 if (!s[i].IsDigit())
@@ -287,13 +287,12 @@ namespace AdventOfCode.Logic.Year2023
                         }
                     }
 
-                    bool IsDigit(string? s, int i) =>
-                        IsInRange(s, i) && s![i].IsDigit();
+                    static bool IsDigit(int i, string? s) =>
+                        IsInRange(i, s) && s![i].IsDigit();
                 }
             }
 
-
-            private static bool IsInRange(string? s, int i) =>
+            private static bool IsInRange(int i, string? s) =>
                 s is not null && i >= 0 && i < s.Length;
 
             public async static Task<SchematicParser> Create(IStreamReader input)
@@ -307,9 +306,9 @@ namespace AdventOfCode.Logic.Year2023
 
         private class LineSet(IStreamReader input)
         {
-            public string? Previous { get; private set; }
-            public string? Current { get; private set; }
-            public string? Next { get; private set; }
+            protected string? Previous { get; private set; }
+            protected string? Current { get; private set; }
+            protected string? Next { get; private set; }
 
             public async Task Init() => 
                 Next = await input.ReadLineAsync();

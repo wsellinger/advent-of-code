@@ -17,14 +17,14 @@ namespace AdventOfCode
 
                 public static void PartA()
                 {
-                    string input = AocUtils.GetSingleLineInput(2015, 1);
+                    string input = AocUtils.GetSingleLineInput(Year, Day);
                     long result = Logic.Year2015.Day01.PartA(input);
                     AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static void PartB()
                 {
-                    string input = AocUtils.GetSingleLineInput(2015, 1);
+                    string input = AocUtils.GetSingleLineInput(Year, Day);
                     long result = Logic.Year2015.Day01.PartB(input);
                     AocUtils.LogResult(Year, Day, 'B', result);
                 }
@@ -36,14 +36,14 @@ namespace AdventOfCode
 
                 public static async Task PartA() 
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2015, 2);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2015.Day02.PartA(input);
                     AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2015, 2);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2015.Day02.PartB(input);
                     AocUtils.LogResult(Year, Day, 'B', result);
                 }
@@ -62,14 +62,14 @@ namespace AdventOfCode
 
                 public static async Task PartA()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 1);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day01.PartA(input);
                     AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 1);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day01.PartB(input);
                     AocUtils.LogResult(Year, Day, 'B', result);
                 }
@@ -81,14 +81,14 @@ namespace AdventOfCode
 
                 public static async Task PartA()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day02.PartA(input);
                     AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 2);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day02.PartB(input);
                     AocUtils.LogResult(Year, Day, 'B', result);
                 }
@@ -100,15 +100,34 @@ namespace AdventOfCode
 
                 public static async Task PartA()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 3);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day03.PartA(input);
                     AocUtils.LogResult(Year, Day, 'A', result);
                 }
 
                 public static async Task PartB()
                 {
-                    using IStreamReader input = AocUtils.GetFileStreamInput(2023, 3);
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
                     long result = await Logic.Year2023.Day03.PartB(input);
+                    AocUtils.LogResult(Year, Day, 'B', result);
+                }
+            }
+
+            static class Day04
+            {
+                public static int Day => 4;
+
+                public static async Task PartA()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
+                    long result = await Logic.Year2023.Day04.PartA(input);
+                    AocUtils.LogResult(Year, Day, 'A', result);
+                }
+
+                public static async Task PartB()
+                {
+                    using IStreamReader input = AocUtils.GetFileStreamInput(Year, Day);
+                    long result = await Logic.Year2023.Day04.PartB(input);
                     AocUtils.LogResult(Year, Day, 'B', result);
                 }
             }

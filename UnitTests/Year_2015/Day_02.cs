@@ -1,5 +1,6 @@
 ﻿using AdventOfCode.Logic.Tools;
-using AdventOfCode.Logic.Year2015;
+
+using Day = AdventOfCode.Logic.Year2015.Day02;
 
 namespace Year_2015
 {
@@ -12,7 +13,7 @@ namespace Year_2015
 		public void PartA(string input, long expected)
         {
             var stream = new StringStreamReader(input);
-            var actual = Day02.PartA(stream).Result;
+            var actual = Day.PartA(stream).Result;
             Assert.Equal(expected, actual);
 		}
 
@@ -23,7 +24,7 @@ namespace Year_2015
 		public void PartB(string input, long expected)
         {
             var stream = new StringStreamReader(input);
-            var actual = Day02.PartB(stream).Result;
+            var actual = Day.PartB(stream).Result;
 			Assert.Equal(expected, actual);
 		}
 	}

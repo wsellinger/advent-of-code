@@ -19,3 +19,7 @@ await AdventOfCode.Solutions.Year2023.Day02.PartB();
 //Day 03
 await AdventOfCode.Solutions.Year2023.Day03.PartA();
 await AdventOfCode.Solutions.Year2023.Day03.PartB();
+
+//Day 04
+await AdventOfCode.Solutions.Year2023.Day04.PartA();
+await AdventOfCode.Solutions.Year2023.Day04.PartB();

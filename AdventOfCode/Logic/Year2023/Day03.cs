@@ -80,7 +80,6 @@ namespace AdventOfCode.Logic.Year2023
     /// </summary>
     public class Day03
     {
-
         public static async Task<long> PartA(IStreamReader input)
         {
             List<int> partNumbers = [];
@@ -91,8 +90,6 @@ namespace AdventOfCode.Logic.Year2023
                     partNumbers.Add(partNumber);
 
             return partNumbers.Sum();
-
-            //Local Methods
         }
 
         public static async Task<long> PartB(IStreamReader input)

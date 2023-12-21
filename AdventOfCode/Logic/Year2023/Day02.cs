@@ -78,7 +78,6 @@ namespace AdventOfCode.Logic.Year2023
     /// </summary>
     public class Day02
     {
-
         public static async Task<long> PartA(IStreamReader input)
         {
             Dictionary<CubeColor, int> MaxCubes = new()

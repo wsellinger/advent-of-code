@@ -108,41 +108,68 @@ namespace AdventOfCode.Logic.Year2023
     {
         public static async Task<long> PartA(IStreamReader input)
         {
-            List<int> cardScores = [];
+            int totalCardScore = 0;
 
             while (await input.TryReadLineAsync())
-                cardScores.Add(GetCardScore(input.Line));
+                totalCardScore += GetCardScore(input.Line);
 
-            return cardScores.Sum();
+            return totalCardScore;
 
             //Local
 
             static int GetCardScore(string input)
             {
-                string[] numbers = input.Split(':')[1].Trim().Split('|');
-                int[] winningNumbers = GetNumbers(numbers[0]);
-                int[] actualNumbers = GetNumbers(numbers[1]);
-                int winCount = winningNumbers.Count(x => actualNumbers.Any(y => y == x));
-                
+                int winCount = GetCardWinCount(input);
+
                 return winCount > 0 ? (int)Math.Pow(2, winCount - 1) : 0;
-
-                //Local
-
-                static int[] GetNumbers(string input) =>
-                    input.Trim().
-                    Split(' ').
-                    Where(x => !x.IsEmpty()).
-                    Select(x => x.ToInt()).ToArray();
             }
         }
 
         public static async Task<long> PartB(IStreamReader input)
         {
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            const int MAX_WINS = 25;
+
+            int totalCardsScored = 0;
+            List<int> copyList = Enumerable.Repeat(1, MAX_WINS).ToList();
+            while (await input.TryReadLineAsync())
+                totalCardsScored += ScoreNextCards(input.Line, ref copyList);
+
+            return totalCardsScored;
+
+            //Local
+
+            static int ScoreNextCards(string input, ref List<int> copyList)
+            {
+                int copies = copyList[0];
+                copyList.RemoveAt(0);
+                copyList.Add(1);
+
+                int winCount = GetCardWinCount(input);
+                for (int i = 0; i < copies; i++)
+                    for (int j = 0; j < winCount; j++)
+                        copyList[j] += 1;
+
+                return copies;
+            }
         }
 
         //Private
-        
+
+        private static int GetCardWinCount(string input)
+        {
+            string[] numbers = input.Split(':')[1].Trim().Split('|');
+            int[] winningNumbers = GetNumbers(numbers[0]);
+            int[] actualNumbers = GetNumbers(numbers[1]);
+
+            return winningNumbers.Count(x => actualNumbers.Any(y => y == x));
+
+            //Local
+
+            static int[] GetNumbers(string input) =>
+                input.Trim().
+                Split(' ').
+                Where(x => !x.IsEmpty()).
+                Select(x => x.ToInt()).ToArray();
+        }
     }
 }
